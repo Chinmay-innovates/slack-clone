@@ -21,6 +21,14 @@ const config = {
 			colors: {
 				maroon: {
 					100: "#5C3B58",
+					200: "#481349",
+				},
+				gray: {
+					100: "#ABABAD",
+					200: "#616061",
+				},
+				fade: {
+					100: "#F2F2F2",
 				},
 				border: "hsl(var(--bord er))",
 				input: "hsl(var(--input))",
