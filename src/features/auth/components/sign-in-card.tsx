@@ -1,4 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { SignInFlow } from "../types";
+import { useAuthActions } from "@convex-dev/auth/react";
 import {
 	Card,
 	CardContent,
@@ -6,13 +8,13 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { SignInFlow } from "../types";
-import { useState } from "react";
-import { useAuthActions } from "@convex-dev/auth/react";
+
 import { TriangleAlert } from "lucide-react";
 
 interface SignInCardProps {
