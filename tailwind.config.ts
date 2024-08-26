@@ -22,6 +22,7 @@ const config = {
 				maroon: {
 					100: "#5C3B58",
 					200: "#481349",
+					300: "#5E2C5F",
 				},
 				gray: {
 					100: "#ABABAD",
@@ -29,6 +30,7 @@ const config = {
 				},
 				fade: {
 					100: "#F2F2F2",
+					
 				},
 				border: "hsl(var(--bord er))",
 				input: "hsl(var(--input))",
