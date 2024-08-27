@@ -6,7 +6,8 @@
 This is a repository for a FullStack Slack Clone with  NextJS, TailwindCSS & Convex.
 
 <h1>Key Features:</h1>
-```
+
+```shell
 📡 Real time communication
 👍 Reactions to messages
 🧵 Threads / Replies system
@@ -24,6 +25,7 @@ This is a repository for a FullStack Slack Clone with  NextJS, TailwindCSS & Con
 🚀 Deployment on Vercel
 🎨 Shadcn UI & Tailwind CSS
 ```
+
 ### Prerequisites
 
 **Node version 14.x**
