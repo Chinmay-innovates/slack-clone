@@ -1,6 +1,4 @@
-import { useCreateWorkspaceModal } from "@/features/auth/workspaces/store/use-create-workspace-modal";
-import { useGetWorkspaces } from "@/features/auth/workspaces/api/use-get-workspaces";
-import { useGetWorkspace } from "@/features/auth/workspaces/api/use-get-workspace";
+
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,6 +9,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Loader, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
+import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
+import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 
 export const WorkspaceSwitcher = () => {
 	const router = useRouter();

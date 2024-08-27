@@ -17,9 +17,10 @@ import {
 
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useConfirmation } from "@/hooks/use-confirmation";
+import { useUpdateWorkspace } from "@/features/workspaces/api/use-update-workspace ";
+import { useRemoveWorkspace } from "@/features/workspaces/api/use-remove-workspace ";
 
-import { useRemoveWorkspace } from "@/features/auth/workspaces/api/use-remove-workspace ";
-import { useUpdateWorkspace } from "@/features/auth/workspaces/api/use-update-workspace ";
+
 
 interface PreferencesModalProps {
 	open: boolean;
