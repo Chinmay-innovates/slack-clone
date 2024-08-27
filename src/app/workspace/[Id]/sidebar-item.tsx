@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { LucideIcon } from "lucide-react";
 import Link from "next/link";
+import { LucideIcon } from "lucide-react";
 import { IconType } from "react-icons/lib";
-import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { Button } from "@/components/ui/button";
 
-const SidebarItemVariants = cva(
+ const SidebarItemVariants = cva(
 	"flex items-center gap-1.5 justify-start font-normal h-7 px-[18px] text-sm overflow-hidden",
 	{
 		variants: {
