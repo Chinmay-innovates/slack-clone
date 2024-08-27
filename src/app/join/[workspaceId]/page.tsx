@@ -1,14 +1,22 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "sonner";
+
 import VerificationInput from "react-verification-input";
+import { Loader } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { useWorkspaceId } from "@/hooks/use-workspace-id";
+
 import { useGetWorkspaceInfo } from "@/features/workspaces/api/use-get-workspace-info";
-import { Loader } from "lucide-react";
+import { useJoin } from "@/features/workspaces/api/use-join";
+
 import { Id } from "../../../../convex/_generated/dataModel";
+import { cn } from "@/lib/utils";
+import { useEffect, useMemo } from "react";
+
 interface JoinPageProps {
 	params: {
 		workspaceId: Id<"workspaces">;
@@ -16,7 +24,33 @@ interface JoinPageProps {
 }
 
 const JoinPage = ({ params }: JoinPageProps) => {
+	const router = useRouter();
+	const { mutate, isPending } = useJoin();
 	const { data, isLoading } = useGetWorkspaceInfo({ id: params.workspaceId });
+
+	const isMember = useMemo(() => data?.isMember, [data?.isMember]);
+
+	useEffect(() => {
+		if (isMember) router.replace(`/workspace/${params.workspaceId}`);
+	}, [isMember, router, params.workspaceId]);
+
+	const handleComplete = (value: string) => {
+		mutate(
+			{
+				workspaceId: params.workspaceId,
+				joinCode: value,
+			},
+			{
+				onSuccess: (id) => {
+					router.replace(`/workspace/${id}`);
+					toast.success("Workspace joined.");
+				},
+				onError() {
+					toast.error("Failed to join workspace.");
+				},
+			}
+		);
+	};
 
 	if (isLoading)
 		return (
@@ -37,10 +71,14 @@ const JoinPage = ({ params }: JoinPageProps) => {
 				<VerificationInput
 					length={6}
 					autoFocus
+					onComplete={handleComplete}
 					classNames={{
-						container: "flex gap-2",
+						container: cn(
+							"flex gap-2 ",
+							isPending && "opacity-50 cursor-not-allowed"
+						),
 						character:
-							"uppercase h-auto rounded-md  border border-gray-300 flex items-center justify-center text-lg font-bold  text-gray-500 ",
+							"uppercase h-auto rounded-md  border border-gray-300 flex items-center justify-center text-lg font-bold  text-gray-500",
 						characterInactive: "bg-muted",
 						characterSelected: "bg-white text-black",
 						characterFilled: "bg-white text-black",
