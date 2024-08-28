@@ -37,7 +37,7 @@ interface EditorProps {
 const Editor = ({
 	onCancel,
 	onSubmit,
-	disabled,
+	disabled = false,
 	innerRef,
 	defaultValue = [],
 	placeholder = "Write something...",
@@ -83,7 +83,15 @@ const Editor = ({
 						enter: {
 							key: "Enter",
 							handler: () => {
-								// TODO Submit Form
+								const text = quill.getText();
+								const addedImage = imageElementRef.current?.files?.[0] || null;
+								const isEmpty =
+									!addedImage &&
+									text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+								if (isEmpty) return;
+
+								const body = JSON.stringify(quill.getContents());
+								submitRef.current?.({ body, image: addedImage });
 							},
 						},
 						shift_enter: {
@@ -134,7 +142,7 @@ const Editor = ({
 	// regex to check empty states
 	// For ex: html tags -> <br /> <p></p> are EMPTY but not exactly
 	// it will be read as "<br /> <p></p>\n" which is not empty
-	const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+	const isEmpty = !image && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
 	// console.log({ isEmpty, text });
 
 	const onEmojiSelect = (emoji: any) => {
@@ -216,7 +224,12 @@ const Editor = ({
 						<Button
 							size="iconSm"
 							disabled={disabled || isEmpty}
-							onClick={() => {}}
+							onClick={() =>
+								onSubmit({
+									body: JSON.stringify(quillRef.current?.getContents()),
+									image,
+								})
+							}
 							className={cn(
 								"ml-auto",
 								isEmpty
@@ -231,7 +244,7 @@ const Editor = ({
 							{/* UPDATE VARIANT */}
 							<Button
 								disabled={disabled}
-								onClick={() => {}}
+								onClick={onCancel}
 								size="sm"
 								variant="outline"
 							>
@@ -239,7 +252,12 @@ const Editor = ({
 							</Button>
 							<Button
 								disabled={disabled || isEmpty}
-								onClick={() => {}}
+								onClick={() =>
+									onSubmit({
+										body: JSON.stringify(quillRef.current?.getContents()),
+										image,
+									})
+								}
 								size="sm"
 								className="bg-seagreen-100  hover:bg-seagreen-100/80 text-white"
 							>
