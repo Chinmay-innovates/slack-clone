@@ -25,7 +25,7 @@ interface JoinPageProps {
 
 const JoinPage = ({ params }: JoinPageProps) => {
 	const router = useRouter();
-	const { mutate, isPending } = useJoin();
+	const { mutate, isPending, isError } = useJoin();
 	const { data, isLoading } = useGetWorkspaceInfo({ id: params.workspaceId });
 
 	const isMember = useMemo(() => data?.isMember, [data?.isMember]);
@@ -74,14 +74,20 @@ const JoinPage = ({ params }: JoinPageProps) => {
 					onComplete={handleComplete}
 					classNames={{
 						container: cn(
-							"flex gap-2 ",
-							isPending && "opacity-50 cursor-not-allowed"
+							"flex gap-2",
+							isPending && "opacity-50 cursor-not-allowed",
+							!isPending && "bg-white"
 						),
-						character:
+						character: cn(
 							"uppercase h-auto rounded-md  border border-gray-300 flex items-center justify-center text-lg font-bold  text-gray-500",
+							data?.isMember && "bg-green-500 text-white"
+						),
 						characterInactive: "bg-muted",
 						characterSelected: "bg-white text-black",
-						characterFilled: "bg-white text-black",
+						characterFilled: cn(
+							"bg-white text-black",
+							isError && "border-red-500"
+						),
 					}}
 				/>
 			</div>
