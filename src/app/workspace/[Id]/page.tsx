@@ -56,16 +56,16 @@ const WorkspaceIdPage = () => {
 		router,
 		workspaceId,
 	]);
-	if (workspaceLoading || channelsLoading) {
+	if (workspaceLoading || channelsLoading || memberLoading) {
 		return (
 			<div className="flex-1 flex flex-col bg-maroon-300 h-full items-center justify-center">
 				<Loader className="size-5 animate-spin text-muted-foreground" />
 			</div>
 		);
 	}
-	if (!workspace) {
+	if (!workspace || !member) {
 		return (
-			<div className="flex-1 flex flex-col bg-maroon-300 h-full items-center justify-center">
+			<div className="flex-1 flex flex-col bg-maroon-300 h-full items-center justify-center gap-y-2">
 				<TriangleAlert className="size-5 text-muted-foreground" />
 				<span className="text-muted-foreground text-sm">
 					Workspace not found
