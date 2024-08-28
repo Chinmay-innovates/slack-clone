@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 
 type EditorValue = {
 	image: File | null;
-	body: string;
+	body: string;   
 };
 
 interface EditorProps {
@@ -42,6 +42,7 @@ const Editor = ({
 	variant = "create",
 }: EditorProps) => {
 	const [text, setText] = useState("");
+	const [isToolbarVisible, setIsToolbarVisible] = useState(true);
 
 	const submitRef = useRef(onSubmit);
 	const disabledRef = useRef(disabled);
@@ -119,6 +120,13 @@ const Editor = ({
 		};
 	}, [innerRef]);
 
+	const toggleToolbar = () => {
+		setIsToolbarVisible((curr) => !curr);
+		const toolbarElement = containerRef?.current?.querySelector(".ql-toolbar");
+
+		if (toolbarElement) toolbarElement?.classList.toggle("hidden");
+	};
+
 	// regex to check empty states
 	// For ex: html tags -> <br /> <p></p> are EMPTY but not exactly
 	// it will be read as "<br /> <p></p>\n" which is not empty
@@ -133,19 +141,21 @@ const Editor = ({
 			>
 				<div ref={containerRef} className="h-full ql-custom" />
 				<div className="flex px-2 z-[5]">
-					<Hint label="Hide formatting">
+					<Hint
+						label={isToolbarVisible ? "Hide formatting" : "Show formatting"}
+					>
 						<Button
-							disabled={false}
+							disabled={disabled}
 							size="iconSm"
 							variant="ghost"
-							onClick={() => {}}
+							onClick={toggleToolbar}
 						>
 							<PiTextAa className="size-4" />
 						</Button>
 					</Hint>
 					<Hint label="Emoji">
 						<Button
-							disabled={false}
+							disabled={disabled}
 							size="iconSm"
 							variant="ghost"
 							onClick={() => {}}
@@ -156,7 +166,7 @@ const Editor = ({
 					{variant === "create" && (
 						<Hint label="Image">
 							<Button
-								disabled={false}
+								disabled={disabled}
 								size="iconSm"
 								variant="ghost"
 								onClick={() => {}}
@@ -172,7 +182,7 @@ const Editor = ({
 							disabled={disabled || isEmpty}
 							onClick={() => {}}
 							className={cn(
-								" ml-auto",
+								"ml-auto",
 								isEmpty
 									? "bg-white hover:bg-white text-muted-foreground"
 									: "bg-seagreen-100 hover:bg-seagreen-100/80 text-white"
@@ -184,7 +194,7 @@ const Editor = ({
 						<div className="ml-auto flex items-center gap-x-2">
 							{/* UPDATE VARIANT */}
 							<Button
-								disabled={false}
+								disabled={disabled}
 								onClick={() => {}}
 								size="sm"
 								variant="outline"
@@ -192,7 +202,7 @@ const Editor = ({
 								Cancel
 							</Button>
 							<Button
-								disabled={false}
+								disabled={disabled || isEmpty}
 								onClick={() => {}}
 								size="sm"
 								className="bg-seagreen-100  hover:bg-seagreen-100/80 text-white"
