@@ -12,6 +12,7 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
 	return (
 		<div className="px-5 w-full ">
 			<Editor
+				variant="create"
 				placeholder={placeholder}
 				onSubmit={() => {}}
 				disabled={false}
