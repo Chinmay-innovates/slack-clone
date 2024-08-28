@@ -20,6 +20,7 @@ import { useConfirmation } from "@/hooks/use-confirmation";
 
 import { useRemoveChannel } from "@/features/channels/api/use-remove-channel";
 import { useUpdateChannel } from "@/features/channels/api/use-update-channel";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
 
 interface HeaderProps {
 	title: string;
@@ -41,6 +42,12 @@ export const Header = ({ title }: HeaderProps) => {
 		useUpdateChannel();
 	const { mutate: removechannel, isPending: IsremovingChannel } =
 		useRemoveChannel();
+	const { data: member } = useCurrentMember({ workspaceId });
+
+	const handleOpen = async (value: boolean) => {
+		if (member?.role !== "admin") return;
+		setEditOpen(value);
+	};
 
 	const handleRemove = async () => {
 		const ok = await confirm();
@@ -55,6 +62,10 @@ export const Header = ({ title }: HeaderProps) => {
 					router.push(`/workspace/${workspaceId}`);
 				},
 				onError() {
+					if (member?.role !== "admin") {
+						toast.error("You are not an admin");
+						return;
+					}
 					toast.error("Failed to delete channel");
 				},
 			}
@@ -103,17 +114,21 @@ export const Header = ({ title }: HeaderProps) => {
 					</DialogTrigger>
 					<DialogContent className="p-0 bg-gray-50 overflow-hidden">
 						<DialogHeader className="p-4 bg-white border-b">
-							<DialogTitle className="font-extrabold"># {title}</DialogTitle>
+							<DialogTitle className=" flex font-extrabold">
+								# {title}
+							</DialogTitle>
 						</DialogHeader>
 						<div className="px-4 pb-4 flex flex-col gap-y-2">
-							<Dialog open={editOpen} onOpenChange={setEditOpen}>
+							<Dialog open={editOpen} onOpenChange={handleOpen}>
 								<DialogTrigger asChild>
 									<div className="px-5 py-4 bg-white rounded-lg cursor-pointer border hover:bg-gray-50">
 										<div className="flex items-center justify-between">
 											<p className="text-sm font-semibold">Channel name</p>
-											<p className="text-sm font-semibold text-[#1264A3]">
-												Edit
-											</p>
+											{member?.role === "admin" && (
+												<p className="text-sm font-semibold text-[#1264A3]">
+													Edit
+												</p>
+											)}
 										</div>
 										<p className="text-sm"># {title}</p>
 									</div>

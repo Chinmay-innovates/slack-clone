@@ -30,7 +30,9 @@ const config = {
 				},
 				fade: {
 					100: "#F2F2F2",
-					
+				},
+				seagreen:{
+					100:"#007A5A"
 				},
 				border: "hsl(var(--bord er))",
 				input: "hsl(var(--input))",

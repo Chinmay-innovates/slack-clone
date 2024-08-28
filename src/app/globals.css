@@ -76,3 +76,42 @@ body,
 		@apply bg-background text-foreground;
 	}
 }
+.ql-toolbar {
+	border: none !important;
+	background-color: #e7e7e7 !important;
+}
+.ql-toolbar .ql-format:not(:last-child) {
+	border-right: 2px solid #dcdcdc00 !important;
+	padding-right: 12px !important;
+}
+.ql-container {
+	font-family: "Lato", sans-serif !important;
+	border: none !important;
+	height: unset !important;
+}
+.ql-editor {
+	line-height: 22px !important;
+	padding: 8px 12px !important;
+	color: #1d1c1d !important;
+	font-weight: 400 !important;
+	font-family: "Lato", sans-serif !important;
+}
+.ql-editor a {
+	color: #1264a3 !important;
+}
+.ql-editor a:hover {
+	text-decoration: underline !important;
+}
+
+.ql-renderer {
+	padding: 0 !important;
+}
+.ql-editor:before {
+	left: 12px;
+	font-family: "Lato", sans-serif !important;
+	color: #0b0b0b63 !important;
+	font-style: normal !important;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	@apply truncate;
+}
