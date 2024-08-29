@@ -13,7 +13,6 @@ const channelIdpage = () => {
 	const channelId = useChannelId();
 
 	const { results, status, loadMore } = useGetMessages({ channelId });
-	console.log({ results });
 
 	const { data: channel, isLoading: channelLoading } = useGetChannel({
 		id: channelId,
