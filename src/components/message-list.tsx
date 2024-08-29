@@ -42,7 +42,7 @@ export const MessageList = ({
 			const dateKey = format(date, "yyyy-MM-dd");
 
 			if (!groups[dateKey]) groups[dateKey] = [];
-			groups[dateKey].push(message);
+			groups[dateKey].unshift(message);
 
 			return groups;
 		},
@@ -50,7 +50,7 @@ export const MessageList = ({
 	);
 
 	return (
-		<div className="flex flex-1 flex-col-reverse pb-4 overflow-y-auto messages-scrollbar">
+		<div className="flex-1 flex flex-col-reverse pb-4 overflow-y-auto messages-scrollbar">
 			{groupedMessages &&
 				Object.entries(groupedMessages).map(([dateKey, messages]) => (
 					<div key={dateKey}>
