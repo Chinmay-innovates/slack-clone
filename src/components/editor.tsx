@@ -161,8 +161,10 @@ const Editor = ({
 				className="hidden"
 			/>
 			<div
-				className="flex flex-col border-slate-200 rounded-md overflow-hidden 
-        focus-within:border-slate-300 focus-within:shadow-sm bg-white"
+				className={cn(
+					"flex flex-col border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm bg-white",
+					disabled && "opacity-50"
+				)}
 			>
 				<div ref={containerRef} className="h-full ql-custom" />
 				{!!image && (
