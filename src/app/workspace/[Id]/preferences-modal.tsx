@@ -40,7 +40,7 @@ export const PreferencesModal = ({
 	const [editOpen, setEditOpen] = useState(false);
 	const [ConfirmDialog, confirm] = useConfirmation(
 		"are you sure?",
-		"This action is irreversible"
+		"This action is irreversible."
 	);
 
 	const { mutate: updateWorkspace, isPending: isUpdatingWorkspace } =

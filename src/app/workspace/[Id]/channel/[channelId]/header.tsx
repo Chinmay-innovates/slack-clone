@@ -29,7 +29,7 @@ interface HeaderProps {
 export const Header = ({ title }: HeaderProps) => {
 	const [ConfirmDialog, confirm] = useConfirmation(
 		"Delete this channel",
-		"You are about to delete this channel. This action irreversible"
+		"You are about to delete this channel. This action irreversible."
 	);
 	const [value, setValue] = useState(title);
 	const [editOpen, setEditOpen] = useState(false);
