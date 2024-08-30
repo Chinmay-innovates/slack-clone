@@ -45,7 +45,7 @@ const JoinPage = ({ params }: JoinPageProps) => {
 					router.replace(`/workspace/${id}`);
 					toast.success("Workspace joined.");
 				},
-				onError() {
+				onError: () => {
 					toast.error("Failed to join workspace.");
 				},
 			}
@@ -80,13 +80,16 @@ const JoinPage = ({ params }: JoinPageProps) => {
 						),
 						character: cn(
 							"uppercase h-auto rounded-md  border border-gray-300 flex items-center justify-center text-lg font-bold  text-gray-500",
-							data?.isMember && "bg-green-500 text-white"
+							isError &&	data?.isMember && "border-red-500",
 						),
 						characterInactive: "bg-muted",
-						characterSelected: "bg-white text-black",
+						characterSelected: cn(
+							"bg-white text-black",
+							isError && "border-red-500 text-red-500"
+						),
 						characterFilled: cn(
 							"bg-white text-black",
-							isError && "border-red-500"
+							isError && "border-red-500",
 						),
 					}}
 				/>

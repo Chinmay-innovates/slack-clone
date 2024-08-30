@@ -31,8 +31,11 @@ const config = {
 				fade: {
 					100: "#F2F2F2",
 				},
-				seagreen:{
-					100:"#007A5A"
+				seagreen: {
+					100: "#007A5A",
+				},
+				paleyellow: {
+					100: "#f2c74433",
 				},
 				border: "hsl(var(--bord er))",
 				input: "hsl(var(--input))",
