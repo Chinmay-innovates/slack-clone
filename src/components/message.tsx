@@ -9,13 +9,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Hint } from "./hint";
 import { Toolbar } from "./toolbar";
 import { Thumbnail } from "./thumbnail";
+import { Reactions } from "./reactions";
+import { UpdatedAtText } from "./updated-at-text";
 
 import { useUpdateMessage } from "@/features/messages/api/use-update-message";
 import { useRemoveMessage } from "@/features/messages/api/use-remove-message";
 import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction";
 import { useConfirmation } from "@/hooks/use-confirmation";
-import { UpdatedAtText } from "./updated-at-text";
-import { Reactions } from "./reactions";
+import { usePanel } from "@/hooks/use-panel";
 
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false });
@@ -29,7 +30,7 @@ interface MessageProps {
 	reactions: Array<
 		Omit<Doc<"reactions">, "memberId"> & {
 			count: number;
-			memberId: Id<"members">;
+			memberIds: Id<"members">[];
 		}
 	>;
 	body: Doc<"messages">["body"];
@@ -68,6 +69,8 @@ export const Message = ({
 	memberId,
 	reactions,
 }: MessageProps) => {
+	const { onOpenMessage, onClose, parentMessageId } = usePanel();
+
 	const [ConfirmDialog, confirm] = useConfirmation(
 		"Delete message",
 		"Are you sure you want to delete this message? This action cannot be undone."
@@ -106,7 +109,7 @@ export const Message = ({
 				onSuccess() {
 					toast.success("Message deleted");
 
-					// TODO : close Thread if opened
+					if (parentMessageId === id) onClose();
 				},
 				onError() {
 					toast.error("Failed to delete message");
@@ -165,7 +168,7 @@ export const Message = ({
 							<div className="flex flex-col w-full overflow-hidden">
 								<Renderer value={body} />
 								<Thumbnail url={image} />
-								<UpdatedAtText text={updatedAt} reactions={reactions} />
+								<UpdatedAtText text={updatedAt} />
 								<Reactions data={reactions} onChange={handleReaction} />
 							</div>
 						)}
@@ -175,7 +178,7 @@ export const Message = ({
 							isAuthor={isAuthor}
 							isPending={isPending}
 							handelEdit={() => setEditingId(id)}
-							handleThread={() => {}}
+							handleThread={() => onOpenMessage(id)}
 							handleDelete={handleRemove}
 							handleReaction={handleReaction}
 							hideThreadButton={hideThreadButton}
@@ -234,7 +237,7 @@ export const Message = ({
 							</div>
 							<Renderer value={body} />
 							<Thumbnail url={image} />
-							<UpdatedAtText text={updatedAt} reactions={reactions} />
+							<UpdatedAtText text={updatedAt} />
 							<Reactions data={reactions} onChange={handleReaction} />
 						</div>
 					)}
@@ -244,7 +247,7 @@ export const Message = ({
 						isAuthor={isAuthor}
 						isPending={isPending}
 						handelEdit={() => setEditingId(id)}
-						handleThread={() => {}}
+						handleThread={() => onOpenMessage(id)}
 						handleDelete={handleRemove}
 						handleReaction={handleReaction}
 						hideThreadButton={hideThreadButton}

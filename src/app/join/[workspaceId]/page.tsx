@@ -6,7 +6,6 @@ import Link from "next/link";
 import { toast } from "sonner";
 
 import VerificationInput from "react-verification-input";
-import { Loader } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -16,6 +15,7 @@ import { useJoin } from "@/features/workspaces/api/use-join";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo } from "react";
+import { Spinner } from "@/components/spinner";
 
 interface JoinPageProps {
 	params: {
@@ -52,12 +52,7 @@ const JoinPage = ({ params }: JoinPageProps) => {
 		);
 	};
 
-	if (isLoading)
-		return (
-			<div className="h-full flex items-center justify-center">
-				<Loader className="size-6 animate-spin text-muted-foreground" />
-			</div>
-		);
+	if (isLoading) return <Spinner />;
 	return (
 		<div className="h-full flex items-center justify-center  flex-col gap-y-8  bg-white p-8 rounded-lg shadow-md">
 			<Image src="/logo.png" alt="Logo" width={250} height={250} />
@@ -80,7 +75,7 @@ const JoinPage = ({ params }: JoinPageProps) => {
 						),
 						character: cn(
 							"uppercase h-auto rounded-md  border border-gray-300 flex items-center justify-center text-lg font-bold  text-gray-500",
-							isError &&	data?.isMember && "border-red-500",
+							isError && data?.isMember && "border-red-500"
 						),
 						characterInactive: "bg-muted",
 						characterSelected: cn(
@@ -89,7 +84,7 @@ const JoinPage = ({ params }: JoinPageProps) => {
 						),
 						characterFilled: cn(
 							"bg-white text-black",
-							isError && "border-red-500",
+							isError && "border-red-500"
 						),
 					}}
 				/>

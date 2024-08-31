@@ -2,7 +2,6 @@ import { Id } from "../../../../convex/_generated/dataModel";
 import {
 	AlertTriangle,
 	HashIcon,
-	Loader,
 	MessageSquareText,
 	SendHorizonal,
 } from "lucide-react";
@@ -21,6 +20,7 @@ import { UserItem } from "./user-item";
 import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
 import { useChannelId } from "@/hooks/use-channel-id";
+import { Spinner } from "@/components/spinner";
 
 export const WorkspaceSidebar = () => {
 	const channelId = useChannelId();
@@ -41,11 +41,7 @@ export const WorkspaceSidebar = () => {
 	});
 
 	if (workspaceLoading || memberLoading) {
-		return (
-			<div className="flex flex-col bg-maroon-300 h-full items-center justify-center">
-				<Loader className="size-5 animate-spin text-white" />
-			</div>
-		);
+		return <Spinner />;
 	}
 	if (!workspace || !member) {
 		return (

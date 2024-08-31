@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader, TriangleAlert } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 
 import { useGetChannel } from "@/features/channels/api/use-get-channel";
 import { useChannelId } from "@/hooks/use-channel-id";
@@ -8,6 +8,7 @@ import { Header } from "./header";
 import { ChatInput } from "./chat-input";
 import { useGetMessages } from "@/features/messages/api/use-get-messages";
 import { MessageList } from "@/components/message-list";
+import { Spinner } from "@/components/spinner";
 
 const channelIdpage = () => {
 	const channelId = useChannelId();
@@ -18,11 +19,7 @@ const channelIdpage = () => {
 		id: channelId,
 	});
 	if (channelLoading || status === "LoadingFirstPage") {
-		return (
-			<div className=" h-full flex-1 flex flex-col  items-center justify-center">
-				<Loader className="size-5 animate-spin text-muted-foreground" />
-			</div>
-		);
+		return <Spinner />;
 	}
 	if (!channel) {
 		return (

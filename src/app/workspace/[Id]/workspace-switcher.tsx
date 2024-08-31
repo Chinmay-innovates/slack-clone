@@ -1,4 +1,3 @@
-
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,11 +6,12 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Loader, Plus } from "lucide-react";
+import {  Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
 import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
+import { Spinner } from "@/components/spinner";
 
 export const WorkspaceSwitcher = () => {
 	const router = useRouter();
@@ -33,7 +33,7 @@ export const WorkspaceSwitcher = () => {
                  bg-gray-100 hover:bg-gray-100/80 font-bold"
 				>
 					{workspaceLoading ? (
-						<Loader className="size-5 animate-spin shrink-0" />
+						<Spinner />
 					) : (
 						workspace?.name.charAt(0).toUpperCase()
 					)}

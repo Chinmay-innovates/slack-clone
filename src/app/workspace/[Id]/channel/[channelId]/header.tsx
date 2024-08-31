@@ -100,8 +100,8 @@ export const Header = ({ title }: HeaderProps) => {
 	return (
 		<>
 			<ConfirmDialog />
-			<div className="bg-white border-b h-[49px] flex items-center px-4 overflow-hidden">
-				<Dialog>
+			<div className="bg-white  border-gray-500/80 border-b h-[49px] flex items-center px-4 overflow-hidden">
+				<Dialog> 
 					<DialogTrigger asChild>
 						<Button
 							className="text-lg font-extrabold px-2 overflow-hidden w-auto "

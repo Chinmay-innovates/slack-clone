@@ -1,13 +1,14 @@
 import { GetMessagesReturnType } from "@/features/messages/api/use-get-messages";
-import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
+import { differenceInMinutes, format } from "date-fns";
 import { Message } from "./message";
 import { ChannelHero } from "./channel-hero";
 import { useState } from "react";
 import { Id } from "../../convex/_generated/dataModel";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
-
-const TIME_THRESHOLD = 5;
+import { Spinner } from "./spinner";
+import { formatDateLabel, TIME_THRESHOLD } from "@/lib/utils";
+import { Button } from "./ui/button";
 
 interface MessageListProps {
 	memberName?: string;
@@ -21,14 +22,6 @@ interface MessageListProps {
 	canLoadMore: boolean;
 }
 
-const formatDateLabel = (dateKey: string) => {
-	const date = new Date(dateKey);
-	if (isToday(date)) return "Today";
-	if (isYesterday(date)) return "Yesterday";
-
-	return format(date, "EEEE, MMMM d");
-};
-
 export const MessageList = ({
 	data,
 	loadMore,
@@ -41,7 +34,6 @@ export const MessageList = ({
 	memberName,
 }: MessageListProps) => {
 	const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
-
 	const workspaceId = useWorkspaceId();
 
 	const { data: currentMember } = useCurrentMember({ workspaceId });
@@ -63,7 +55,7 @@ export const MessageList = ({
 	return (
 		<div className="flex-1 flex flex-col-reverse pb-4 overflow-y-auto messages-scrollbar">
 			{groupedMessages &&
-				Object.entries(groupedMessages).map(([dateKey, messages]) => (
+				Object.entries(groupedMessages || {}).map(([dateKey, messages]) => (
 					<div key={dateKey}>
 						<div className="text-center my-2 relative">
 							<hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
@@ -105,6 +97,40 @@ export const MessageList = ({
 						})}
 					</div>
 				))}
+			<div
+				className="h-[0.5px]"
+				ref={(el) => {
+					if (el) {
+						const observer = new IntersectionObserver(
+							([entry]) => {
+								if (entry.isIntersecting && canLoadMore) {
+									loadMore();
+								}
+							},
+							{
+								threshold: 1.0,
+							}
+						);
+						observer.observe(el);
+						return () => observer.disconnect();
+					}
+				}}
+			/>
+			<div>
+				<Button className="w-full" size="sm" variant="transparent" 
+				onMouseMove={loadMore}
+				 >
+				Cant see this button
+				</Button>
+			</div>
+			{isLoadingMore && (
+				<div className="text-center my-2 relative">
+					<hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
+					<span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm">
+						<Spinner />
+					</span>
+				</div>
+			)}
 			{variant === "channel" && channelName && channelCreationTime && (
 				<ChannelHero name={channelName} creationTime={channelCreationTime} />
 			)}

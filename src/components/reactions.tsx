@@ -10,7 +10,7 @@ interface ReactionsProps {
 	data: Array<
 		Omit<Doc<"reactions">, "memberId"> & {
 			count: number;
-			memberId: Id<"members">;
+			memberIds: Id<"members">[];
 		}
 	>;
 	onChange: (value: string) => void;
@@ -28,22 +28,27 @@ export const Reactions = ({ data, onChange }: ReactionsProps) => {
 		<div className="flex items-center gap-1 mt-1 mb-1">
 			{data.map((reaction) => (
 				<Hint
-					label={`${reaction.count} ${reaction.count === 1 ? "person" : "people"} reacted with ${reaction.value}`}
+					label={`${reaction.count} ${
+						reaction.count === 1 ? "person" : "people"
+					} reacted with ${reaction.value}`}
 					key={reaction._id}
 				>
 					<button
 						onClick={() => onChange(reaction.value)}
 						className={cn(
-							"h-6 px-2 rounded-full bg-slate-200/80 border-transparent text-slate-800 flex items-center gap-x-1",
-							reaction.memberId.includes(currentMemberId) &&
-								"text-blue-100/80 border-blue-500 text-white"
+							"h-6 px-2 rounded-full bg-slate-200/70 border-transparent text-slate-800 flex items-center gap-x-1",
+							Array.isArray(reaction.memberIds) &&
+								reaction.memberIds?.includes(currentMemberId) &&
+								"bg-blue-100/70 border-blue-500 text-white"
 						)}
 					>
 						{reaction.value}
 						<span
 							className={cn(
 								"text-xs font-semibold text-muted-foreground",
-								reaction.memberId.includes(currentMemberId) && "text-blue-500"
+								Array.isArray(reaction.memberIds) &&
+									reaction.memberIds?.includes(currentMemberId) &&
+									"bg-blue-100/70"
 							)}
 						>
 							{reaction.count}
