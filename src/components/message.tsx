@@ -17,6 +17,7 @@ import { useRemoveMessage } from "@/features/messages/api/use-remove-message";
 import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction";
 import { useConfirmation } from "@/hooks/use-confirmation";
 import { usePanel } from "@/hooks/use-panel";
+import { ThreadBar } from "./thread-bar";
 
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false });
@@ -43,6 +44,7 @@ interface MessageProps {
 	hideThreadButton?: boolean;
 	threadCount?: number;
 	threadImage?: string;
+	threadName?: string;
 	threadTimestamp?: number;
 }
 
@@ -68,6 +70,7 @@ export const Message = ({
 	threadCount,
 	memberId,
 	reactions,
+	threadName
 }: MessageProps) => {
 	const { onOpenMessage, onClose, parentMessageId } = usePanel();
 
@@ -170,6 +173,13 @@ export const Message = ({
 								<Thumbnail url={image} />
 								<UpdatedAtText text={updatedAt} />
 								<Reactions data={reactions} onChange={handleReaction} />
+								<ThreadBar
+									count={threadCount}
+									image={threadImage}
+									timestamp={threadTimestamp}
+									name={threadName}
+									onClick={() => onOpenMessage(id)}
+								/>
 							</div>
 						)}
 					</div>
@@ -239,6 +249,13 @@ export const Message = ({
 							<Thumbnail url={image} />
 							<UpdatedAtText text={updatedAt} />
 							<Reactions data={reactions} onChange={handleReaction} />
+							<ThreadBar
+								count={threadCount}
+								image={threadImage}
+								name={threadName}
+								timestamp={threadTimestamp}
+								onClick={() => onOpenMessage(id)}
+							/>
 						</div>
 					)}
 				</div>

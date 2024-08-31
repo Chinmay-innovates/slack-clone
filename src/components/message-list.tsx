@@ -9,6 +9,7 @@ import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { Spinner } from "./spinner";
 import { formatDateLabel, TIME_THRESHOLD } from "@/lib/utils";
 import { Button } from "./ui/button";
+import { ConversationHero } from "./conversation-hero";
 
 interface MessageListProps {
 	memberName?: string;
@@ -89,6 +90,7 @@ export const MessageList = ({
 									createdAt={message._creationTime}
 									threadCount={message.threadCount}
 									threadImage={message.threadImage}
+									threadName={message.threadName}
 									threadTimestamp={message.threadTimestamp}
 									hideThreadButton={variant === "thread"}
 									isCompact={isSameAuthor}
@@ -117,10 +119,13 @@ export const MessageList = ({
 				}}
 			/>
 			<div>
-				<Button className="w-full" size="sm" variant="transparent" 
-				onMouseMove={loadMore}
-				 >
-				Cant see this button
+				<Button
+					className="w-full"
+					size="sm"
+					variant="transparent"
+					onMouseMove={loadMore}
+				>
+					Cant see this button
 				</Button>
 			</div>
 			{isLoadingMore && (
@@ -133,6 +138,9 @@ export const MessageList = ({
 			)}
 			{variant === "channel" && channelName && channelCreationTime && (
 				<ChannelHero name={channelName} creationTime={channelCreationTime} />
+			)}
+			{variant === "conversation" && (
+				<ConversationHero name={memberName} image={memberImage} />
 			)}
 		</div>
 	);

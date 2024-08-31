@@ -6,24 +6,26 @@ import {
 	SendHorizonal,
 } from "lucide-react";
 
-import { useWorkspaceId } from "@/hooks/use-workspace-id";
-
+import { WorkspaceSection } from "./workspace-section";
 import { WorkspaceHeader } from "./workspace-header";
 import { SidebarItem } from "./sidebar-item";
+import { UserItem } from "./user-item";
 
+import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
-
-import { WorkspaceSection } from "./workspace-section";
-import { UserItem } from "./user-item";
 import { useGetMembers } from "@/features/members/api/use-get-members";
-import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
-import { useChannelId } from "@/hooks/use-channel-id";
 import { Spinner } from "@/components/spinner";
 
+import { useChannelId } from "@/hooks/use-channel-id";
+import { useMemberId } from "@/hooks/use-member-id";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+
 export const WorkspaceSidebar = () => {
+	const memberId = useMemberId();
 	const channelId = useChannelId();
+
 	const workspaceId: Id<"workspaces"> = useWorkspaceId();
 	const [_open, setOpen] = useCreateChannelModal();
 
@@ -87,6 +89,7 @@ export const WorkspaceSidebar = () => {
 						id={mem._id}
 						label={mem.user.name}
 						image={mem.user.image}
+						variant={mem._id === memberId ? "active" : "default"}
 					/>
 				))}
 			</WorkspaceSection>
