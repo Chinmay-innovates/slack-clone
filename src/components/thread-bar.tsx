@@ -38,7 +38,7 @@ export const ThreadBar = ({
 					{formatDistanceToNow(timestamp, { addSuffix: true })}
 				</span>
 				<span className="text-xs text-muted-foreground truncate group-hover/thread-bar:block hidden">
-					view <i>threads</i>
+					View <i>threads</i>
 				</span>
 			</div>
 			<ChevronRight className="size-4 text-muted-foreground ml-auto opacity-0 group-hover/thread-bar:opacity-100 transition shrink-0" />

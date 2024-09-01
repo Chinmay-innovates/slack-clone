@@ -70,9 +70,9 @@ export const Message = ({
 	threadCount,
 	memberId,
 	reactions,
-	threadName
+	threadName,
 }: MessageProps) => {
-	const { onOpenMessage, onClose, parentMessageId } = usePanel();
+	const { onOpenMessage, onClose, parentMessageId, onOpenProfile } = usePanel();
 
 	const [ConfirmDialog, confirm] = useConfirmation(
 		"Delete message",
@@ -212,7 +212,7 @@ export const Message = ({
 				)}
 			>
 				<div className="flex items-center gap-2">
-					<button>
+					<button onClick={() => onOpenProfile(memberId)}>
 						<Avatar>
 							<AvatarImage src={authorImage} />
 							<AvatarFallback>{avatarFallback}</AvatarFallback>
@@ -233,7 +233,7 @@ export const Message = ({
 						<div className="flex flex-col w-full overflow-hidden">
 							<div className="text-sm">
 								<button
-									onClick={() => {}}
+									onClick={() => onOpenProfile(memberId)}
 									className="font-semibold text-primary hover:underline"
 								>
 									{authorName}

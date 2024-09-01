@@ -36,7 +36,7 @@
     "react-use": "^17.5.1",
     "react-verification-input": "^4.1.2",
     "separator": "^0.1.0",
-    "shadcn-ui": "^0.2.3",
+    "shadcn-ui": "^0.9.0",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7"

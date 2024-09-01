@@ -1,25 +1,34 @@
 "use client";
+import { WorkspaceSidebar } from "./workspace-sidebar";
+import { Sidebar } from "./sidebar";
+import { Toolbar } from "./toolbar";
 import {
 	ResizableHandle,
 	ResizablePanel,
 	ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { Sidebar } from "./sidebar";
-import { Toolbar } from "./toolbar";
-import { WorkspaceSidebar } from "./workspace-sidebar";
-import { usePanel } from "@/hooks/use-panel";
 import { Id } from "../../../../convex/_generated/dataModel";
+
+import { usePanel } from "@/hooks/use-panel";
+
 import { Thread } from "@/features/messages/components/thread";
+import { Profile } from "@/features/members/components/profile";
 import { Spinner } from "@/components/spinner";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { useCurrentUser } from "@/features/auth/api/use-current-user";
 
 interface WorkspaceLayoutProps {
 	children: React.ReactNode;
 }
 
 const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
-	const { parentMessageId, onClose, onOpenMessage } = usePanel();
+	const { parentMessageId, onClose, profileMemberId } = usePanel();
+	const workspaceId = useWorkspaceId();
+	const member = useCurrentMember({ workspaceId });
+	const user = useCurrentUser();
 
-	const showPanel = !!parentMessageId;
+	const showPanel = !!parentMessageId || !!profileMemberId;
 
 	return (
 		<div className="h-full ">
@@ -38,7 +47,9 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
 						<WorkspaceSidebar />
 					</ResizablePanel>
 					<ResizableHandle withHandle />
-					<ResizablePanel minSize={20}>{children}</ResizablePanel>
+					<ResizablePanel minSize={20} defaultSize={80}>
+						{children}
+					</ResizablePanel>
 					{showPanel && (
 						<>
 							<ResizableHandle withHandle />
@@ -46,6 +57,11 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
 								{parentMessageId ? (
 									<Thread
 										messageId={parentMessageId as Id<"messages">}
+										onClose={onClose}
+									/>
+								) : profileMemberId ? (
+									<Profile
+										memberId={profileMemberId as Id<"members">}
 										onClose={onClose}
 									/>
 								) : (
