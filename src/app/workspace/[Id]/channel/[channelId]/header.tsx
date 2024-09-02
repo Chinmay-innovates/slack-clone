@@ -125,7 +125,7 @@ export const Header = ({ title }: HeaderProps) => {
 										<div className="flex items-center justify-between">
 											<p className="text-sm font-semibold">Channel name</p>
 											{member?.role === "admin" && (
-												<p className="text-sm font-semibold text-[#1264A3]">
+												<p className="text-sm font-semibold text-seablue-200">
 													Edit
 												</p>
 											)}

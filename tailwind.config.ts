@@ -30,12 +30,19 @@ const config = {
 				},
 				fade: {
 					100: "#F2F2F2",
+					200: "#E7E7E7",
+					300: "#F9EDFFCC",
 				},
 				seagreen: {
 					100: "#007A5A",
 				},
 				paleyellow: {
 					100: "#f2c74433",
+				},
+				seablue: {
+					100: "#1274A3",
+					200: "#1264A3",
+					300: "#1225A3",
 				},
 				border: "hsl(var(--bord er))",
 				input: "hsl(var(--input))",

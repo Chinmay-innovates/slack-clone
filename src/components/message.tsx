@@ -145,7 +145,7 @@ export const Message = ({
 				<ConfirmDialog />
 				<div
 					className={cn(
-						"flex flex-col gap-2 px-5 p-1.5 hover:bg-[#e7e7e7]/60 group relative",
+						"flex flex-col gap-2 px-5 p-1.5 hover:bg-fade-200/60 group relative",
 						isEditing && "bg-paleyellow-100 hover:bg-paleyellow-100",
 						isRemovingMessage &&
 							"bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200"
@@ -205,7 +205,7 @@ export const Message = ({
 			<ConfirmDialog />
 			<div
 				className={cn(
-					"flex flex-col gap-2 px-5 p-1.5 hover:bg-[#e7e7e7]/60 group relative",
+					"flex flex-col gap-2 px-5 p-1.5 hover:bg-fade-200/60 group relative",
 					isEditing && "bg-paleyellow-100 hover:bg-paleyellow-100",
 					isRemovingMessage &&
 						"bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200"
