@@ -17,7 +17,6 @@ import {
 	CommandList,
 	CommandSeparator,
 } from "@/components/ui/command";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export const Toolbar = () => {
@@ -31,12 +30,12 @@ export const Toolbar = () => {
 
 	const onChannelClick = (channelId: string) => {
 		setOpen(false);
-		router.push(`/workspce/${workspaceId}/channel/${channelId}`);
+		router.push(`/workspace/${workspaceId}/channel/${channelId}`);
 	};
 
 	const onMemberClick = (memberId: string) => {
 		setOpen(false);
-		router.push(`/workspce/${workspaceId}/member/${memberId}`);
+		router.push(`/workspace/${workspaceId}/member/${memberId}`);
 	};
 
 	return (
@@ -60,7 +59,6 @@ export const Toolbar = () => {
 							{channels?.map((channel) => (
 								<CommandItem
 									key={channel._id}
-									asChild
 									onSelect={() => onChannelClick(channel._id)}
 								>
 									{channel.name}
@@ -72,7 +70,6 @@ export const Toolbar = () => {
 							{members?.map((member) => (
 								<CommandItem
 									key={member._id}
-									asChild
 									onSelect={() => onMemberClick(member._id)}
 								>
 									{member.user.name}
