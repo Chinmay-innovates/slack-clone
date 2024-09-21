@@ -124,9 +124,8 @@ export const MessageList = ({
 					size="sm"
 					variant="transparent"
 					onMouseMove={loadMore}
-				>
-					Cant see this button
-				</Button>
+				/>
+				{/* Cant see this button */}
 			</div>
 			{isLoadingMore && (
 				<div className="text-center my-2 relative">
