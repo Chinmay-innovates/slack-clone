@@ -1,9 +1,8 @@
-
-# Building a Fullstack Slack Clone with  NextJS, TailwindCSS & Convex
+# Building a Fullstack Slack Clone with NextJS, TailwindCSS & Convex
 
 ![Screenshot 2024-08-28 005822](https://github.com/user-attachments/assets/11dc7551-178b-44fe-bc7c-4670fb72cf47)
 
-This is a repository for a FullStack Slack Clone with  NextJS, TailwindCSS & Convex.
+This is a repository for a FullStack Slack Clone with NextJS, TailwindCSS & Convex.
 
 <h1>Key Features:</h1>
 
@@ -11,10 +10,10 @@ This is a repository for a FullStack Slack Clone with  NextJS, TailwindCSS & Con
 📡 Real time communication
 👍 Reactions to messages
 🧵 Threads / Replies system
-✏️ Editing messages 
-🗑️ Deleting messages 
-🔐 Role based access control 
-🖼️ Image attachments 
+✏️ Editing messages
+🗑️ Deleting messages
+🔐 Role based access control
+🖼️ Image attachments
 🔒 Authentication with Next auth v5
 📺 Channel creation
 🏢 Workspace creation
@@ -59,6 +58,6 @@ npm run dev
 
 Running commands with npm `npm run [command]`
 
-| command       |             description                  |
-| :-------------| :--------------------------------------- |
+| command       | description                              |
+| :------------ | :--------------------------------------- |
 | `npm run dev` | Starts a development instance of the app |

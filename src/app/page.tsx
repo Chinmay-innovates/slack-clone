@@ -22,8 +22,5 @@ export default function Home() {
 		}
 	}, [workspaceId, isLoading, open, setOpen, router]);
 
-	return (
-		<div>
-		</div>
-	);
+	return <></>;
 }

@@ -2,28 +2,28 @@ import { useProfileMemberId } from "@/features/members/store/use-profile-member-
 import { useParentMessageId } from "@/features/messages/store/use-parent-message-id";
 
 export const usePanel = () => {
-	const [parentMessageId, setParentMessageId] = useParentMessageId();
-	const [profileMemberId, setProfileMemberId] = useProfileMemberId();
+  const [parentMessageId, setParentMessageId] = useParentMessageId();
+  const [profileMemberId, setProfileMemberId] = useProfileMemberId();
 
-	const onOpenProfile = (memberId: string) => {
-		setProfileMemberId(memberId);
-		setParentMessageId(null);
-	};
+  const onOpenProfile = (memberId: string) => {
+    setProfileMemberId(memberId);
+    setParentMessageId(null);
+  };
 
-	const onOpenMessage = (messsageId: string) => {
-		setParentMessageId(messsageId);
-		setProfileMemberId(null);
-	};
+  const onOpenMessage = (messsageId: string) => {
+    setParentMessageId(messsageId);
+    setProfileMemberId(null);
+  };
 
-	const onClose = () => {
-		setParentMessageId(null);
-		setProfileMemberId(null);
-	};
-	return {
-		parentMessageId,
-		profileMemberId,
-		onOpenProfile,
-		onOpenMessage,
-		onClose,
-	};
+  const onClose = () => {
+    setParentMessageId(null);
+    setProfileMemberId(null);
+  };
+  return {
+    parentMessageId,
+    profileMemberId,
+    onOpenProfile,
+    onOpenMessage,
+    onClose,
+  };
 };

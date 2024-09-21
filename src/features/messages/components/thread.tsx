@@ -202,12 +202,12 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
 						</div>
 					))}
 				<div
-					className="h-[0.5px]"
+					className="h-[1px]"
 					ref={(el) => {
 						if (el) {
 							const observer = new IntersectionObserver(
 								([entry]) => {
-									if (entry.isIntersecting && canLoadMore) {
+									if (entry.isIntersecting || canLoadMore) {
 										loadMore();
 									}
 								},
@@ -222,7 +222,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
 				/>
 				<div>
 					<Button
-						className="w-full"
+						className="w-full pointer-events-none"
 						size="sm"
 						variant="transparent"
 						onMouseMove={loadMore}
