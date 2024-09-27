@@ -4,7 +4,6 @@ import { getAuthUserId } from "@convex-dev/auth/server";
 import { Doc, Id } from "./_generated/dataModel";
 import { paginationOptsValidator } from "convex/server";
 import { useId } from "react";
-import exp from "constants";
 
 const getMember = async (
   ctx: QueryCtx,
@@ -18,6 +17,51 @@ const getMember = async (
     )
     .unique();
 };
+
+export const remove = mutation({
+  args: {
+    id: v.id("messages"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("Unauthorized");
+
+    const message = await ctx.db.get(args.id);
+    if (!message) throw new Error("Message not found");
+
+    const member = await getMember(ctx, message.workspaceId, userId);
+    if (!member || member._id !== message.memberId)
+      throw new Error("Unauthorized");
+
+    await ctx.db.delete(args.id);
+
+    return args.id;
+  },
+});
+export const update = mutation({
+  args: {
+    id: v.id("messages"),
+    body: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("Unauthorized");
+
+    const message = await ctx.db.get(args.id);
+    if (!message) throw new Error("Message not found");
+
+    const member = await getMember(ctx, message.workspaceId, userId);
+    if (!member || member._id !== message.memberId)
+      throw new Error("Unauthorized");
+
+    await ctx.db.patch(args.id, {
+      body: args.body,
+      updatedAt: Date.now(),
+    });
+
+    return args.id;
+  },
+});
 
 const populateUser = (ctx: QueryCtx, userId: Id<"users">) => {
   return ctx.db.get(userId);
@@ -72,53 +116,7 @@ const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
   };
 };
 
-const remove = mutation({
-  args: {
-    id: v.id("messages"),
-  },
-  handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("Unauthorized");
-
-    const message = await ctx.db.get(args.id);
-    if (!message) throw new Error("Message not found");
-
-    const member = await getMember(ctx, message.workspaceId, userId);
-    if (!member || member._id !== message.memberId)
-      throw new Error("Unauthorized");
-
-    await ctx.db.delete(args.id);
-
-    return args.id;
-  },
-});
-
-const update = mutation({
-  args: {
-    id: v.id("messages"),
-    body: v.string(),
-  },
-  handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("Unauthorized");
-
-    const message = await ctx.db.get(args.id);
-    if (!message) throw new Error("Message not found");
-
-    const member = await getMember(ctx, message.workspaceId, userId);
-    if (!member || member._id !== message.memberId)
-      throw new Error("Unauthorized");
-
-    await ctx.db.patch(args.id, {
-      body: args.body,
-      updatedAt: Date.now(),
-    });
-
-    return args.id;
-  },
-});
-
-const getById = query({
+export const getById = query({
   args: {
     id: v.id("messages"),
   },
@@ -180,7 +178,7 @@ const getById = query({
   },
 });
 
-const get = query({
+export const get = query({
   args: {
     channelId: v.optional(v.id("channels")),
     conversationId: v.optional(v.id("conversations")),
@@ -280,7 +278,7 @@ const get = query({
   },
 });
 
-const create = mutation({
+export const create = mutation({
   args: {
     body: v.string(),
     image: v.optional(v.id("_storage")),
@@ -319,5 +317,3 @@ const create = mutation({
     return messageId;
   },
 });
-
-export { get, create, getById, remove, update };
