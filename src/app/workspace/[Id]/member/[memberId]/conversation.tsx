@@ -11,6 +11,10 @@ import { Header } from "./header";
 import { ChatInput } from "./chat-input";
 import { usePanel } from "@/hooks/use-panel";
 
+import { useState } from "react";
+import { MediaRoom } from "@/components/media-room";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+
 interface ConversationProps {
 	id: Id<"conversations">;
 }
@@ -18,6 +22,12 @@ interface ConversationProps {
 export const Conversation = ({ id }: ConversationProps) => {
 	const memberId = useMemberId();
 	const { onOpenProfile } = usePanel();
+	const [media, setMedia] = useState(false);
+	const workspaceId = useWorkspaceId();
+	const onClick = () => {
+		setMedia(true);
+	};
+
 	const { data: member, isLoading: memberLoading } = useGetMember({
 		id: memberId,
 	});
@@ -34,6 +44,7 @@ export const Conversation = ({ id }: ConversationProps) => {
 				memberImage={member?.user.image}
 				onClick={() => onOpenProfile(memberId)}
 			/>
+			{media && <MediaRoom chatId={workspaceId} audio={true} video={true} />}
 			<MessageList
 				data={results}
 				loadMore={loadMore}

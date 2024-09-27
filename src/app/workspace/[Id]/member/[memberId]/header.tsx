@@ -1,7 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { FaChevronDown } from "react-icons/fa";
-
+import { Hint } from "@/components/hint";
+import { VideoIcon } from "lucide-react";
+import { useState } from "react";
 interface HeaderProps {
 	memberName?: string;
 	memberImage?: string;
@@ -14,7 +16,10 @@ export const Header = ({
 	onClick,
 }: HeaderProps) => {
 	const avatarFallback = memberName.charAt(0).toUpperCase();
-
+	const [media, setMedia] = useState(false);
+	const onIconClick = () => {
+		setMedia(true);
+	};
 	return (
 		<div className="bg-white border-gray-500/80 border-b h-[49px] flex items-center px-4 overflow-hidden">
 			<Button
@@ -28,8 +33,14 @@ export const Header = ({
 					<AvatarFallback>{avatarFallback}</AvatarFallback>
 				</Avatar>
 				<span className="truncate">{memberName}</span>
-				<FaChevronDown className="size-2.5 ml-2"/>
+				<FaChevronDown className="size-2.5 ml-2" />
 			</Button>
+			<div onClick={onIconClick} className="flex items-center justify-center">
+				<Hint label="Video" side="bottom" align="center">
+					<VideoIcon className="hover:text-seablue-200 hover:cursor-pointer size-5 flex items-center mr-3" />
+				</Hint>
+			</div>
+			
 		</div>
 	);
 };

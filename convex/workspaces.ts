@@ -11,7 +11,7 @@ const generateCode = () => {
   return code;
 };
 
-export const join = mutation({
+const join = mutation({
   args: {
     joinCode: v.string(),
     workspaceId: v.id("workspaces"),
@@ -44,7 +44,7 @@ export const join = mutation({
   },
 });
 
-export const newJoinCode = mutation({
+const newJoinCode = mutation({
   args: {
     workspaceId: v.id("workspaces"),
   },
@@ -70,7 +70,7 @@ export const newJoinCode = mutation({
     return args.workspaceId;
   },
 });
-export const create = mutation({
+const create = mutation({
   args: {
     name: v.string(),
   },
@@ -100,7 +100,7 @@ export const create = mutation({
   },
 });
 
-export const get = query({
+const get = query({
   args: {},
   handler: async (ctx) => {
     const userId = await getAuthUserId(ctx);
@@ -123,7 +123,7 @@ export const get = query({
   },
 });
 
-export const getInfoById = query({
+const getInfoById = query({
   args: { id: v.id("workspaces") },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
@@ -144,7 +144,7 @@ export const getInfoById = query({
   },
 });
 
-export const getById = query({
+const getById = query({
   args: { id: v.id("workspaces") },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
@@ -162,7 +162,7 @@ export const getById = query({
   },
 });
 
-export const update = mutation({
+const update = mutation({
   args: {
     id: v.id("workspaces"),
     name: v.string(),
@@ -189,7 +189,7 @@ export const update = mutation({
   },
 });
 
-export const remove = mutation({
+const remove = mutation({
   args: {
     id: v.id("workspaces"),
   },
@@ -242,3 +242,14 @@ export const remove = mutation({
     return args.id;
   },
 });
+
+export {
+  create,
+  get,
+  getById,
+  getInfoById,
+  remove,
+  update,
+  join,
+  newJoinCode,
+};

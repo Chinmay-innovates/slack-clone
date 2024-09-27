@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, Trash } from "lucide-react";
+import { ChevronDown, Phone, PhoneIcon, Trash, VideoIcon } from "lucide-react";
 import {
 	Dialog,
 	DialogClose,
@@ -21,6 +21,8 @@ import { useConfirmation } from "@/hooks/use-confirmation";
 import { useRemoveChannel } from "@/features/channels/api/use-remove-channel";
 import { useUpdateChannel } from "@/features/channels/api/use-update-channel";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
+import { Hint } from "@/components/hint";
+import { MediaRoom } from "@/components/media-room";
 
 interface HeaderProps {
 	title: string;
@@ -33,10 +35,14 @@ export const Header = ({ title }: HeaderProps) => {
 	);
 	const [value, setValue] = useState(title);
 	const [editOpen, setEditOpen] = useState(false);
+	const [media, setMedia] = useState(false);
 	const router = useRouter();
 
 	const channelId = useChannelId();
 	const workspaceId = useWorkspaceId();
+	const onClick = () => {
+		setMedia(true);
+	};
 
 	const { mutate: updatechannel, isPending: IsUpdatingChannel } =
 		useUpdateChannel();
@@ -100,80 +106,92 @@ export const Header = ({ title }: HeaderProps) => {
 	return (
 		<>
 			<ConfirmDialog />
-			<div className="bg-white  border-gray-500/80 border-b h-[49px] flex items-center px-4 overflow-hidden">
-				<Dialog> 
-					<DialogTrigger asChild>
-						<Button
-							className="text-lg font-extrabold px-2 overflow-hidden w-auto "
-							variant="ghost"
-							size="sm"
-						>
-							<span className="truncate"># {title}</span>
-							<ChevronDown className="size-2.5 ml-2" />
-						</Button>
-					</DialogTrigger>
-					<DialogContent className="p-0 bg-gray-50 overflow-hidden">
-						<DialogHeader className="p-4 bg-white border-b">
-							<DialogTitle className=" flex font-extrabold">
-								# {title}
-							</DialogTitle>
-						</DialogHeader>
-						<div className="px-4 pb-4 flex flex-col gap-y-2">
-							<Dialog open={editOpen} onOpenChange={handleOpen}>
-								<DialogTrigger asChild>
-									<div className="px-5 py-4 bg-white rounded-lg cursor-pointer border hover:bg-gray-50">
-										<div className="flex items-center justify-between">
-											<p className="text-sm font-semibold">Channel name</p>
-											{member?.role === "admin" && (
-												<p className="text-sm font-semibold text-seablue-200">
-													Edit
-												</p>
-											)}
-										</div>
-										<p className="text-sm"># {title}</p>
-									</div>
-								</DialogTrigger>
-								<DialogContent>
-									<DialogHeader>
-										<DialogTitle className="font-extrabold">
-											Rename this channel
-										</DialogTitle>
-									</DialogHeader>
-									<form onSubmit={handleSubmit} className="space-y-4">
-										<Input
-											value={value}
-											disabled={IsUpdatingChannel}
-											onChange={handleChange}
-											required
-											autoFocus
-											minLength={3}
-											maxLength={80}
-											placeholder="e.g. plan-budget"
-										/>
-										<DialogFooter>
-											<DialogClose asChild>
-												<Button disabled={IsUpdatingChannel} variant="outline">
-													Cancel
-												</Button>
-											</DialogClose>
-											<Button disabled={IsUpdatingChannel}>Save</Button>
-										</DialogFooter>
-									</form>
-								</DialogContent>
-							</Dialog>
-							<button
-								onClick={handleRemove}
-								disabled={IsremovingChannel}
-								className="flex items-center gap-x-2 px-5 py-4 bg-white
-                        cursor-pointer rounded-lg border hover:bg-gray-50 text-rose-600"
+			{media ? (
+				<MediaRoom chatId={channelId} audio={true} video={true} />
+			) : (
+				<div className="bg-white border-gray-500/80 border-b h-[49px] flex items-center px-4 overflow-hidden justify-between">
+					<Dialog>
+						<DialogTrigger asChild>
+							<Button
+								className="text-lg font-extrabold px-2 overflow-hidden w-auto "
+								variant="ghost"
+								size="sm"
 							>
-								<Trash className="size-4" />
-								<p className="text-sm font-semibold">Delete channel</p>
-							</button>
-						</div>
-					</DialogContent>
-				</Dialog>
-			</div>
+								<span className="truncate"># {title}</span>
+								<ChevronDown className="size-2.5 ml-2" />
+							</Button>
+						</DialogTrigger>
+						<DialogContent className="p-0 bg-gray-50 overflow-hidden">
+							<DialogHeader className="p-4 bg-white border-b">
+								<DialogTitle className=" flex font-extrabold">
+									# {title}
+								</DialogTitle>
+							</DialogHeader>
+							<div className="px-4 pb-4 flex flex-col gap-y-2">
+								<Dialog open={editOpen} onOpenChange={handleOpen}>
+									<DialogTrigger asChild>
+										<div className="px-5 py-4 bg-white rounded-lg cursor-pointer border hover:bg-gray-50">
+											<div className="flex items-center justify-between">
+												<p className="text-sm font-semibold">Channel name</p>
+												{member?.role === "admin" && (
+													<p className="text-sm font-semibold text-seablue-200">
+														Edit
+													</p>
+												)}
+											</div>
+											<p className="text-sm"># {title}</p>
+										</div>
+									</DialogTrigger>
+									<DialogContent>
+										<DialogHeader>
+											<DialogTitle className="font-extrabold">
+												Rename this channel
+											</DialogTitle>
+										</DialogHeader>
+										<form onSubmit={handleSubmit} className="space-y-4">
+											<Input
+												value={value}
+												disabled={IsUpdatingChannel}
+												onChange={handleChange}
+												required
+												autoFocus
+												minLength={3}
+												maxLength={80}
+												placeholder="e.g. plan-budget"
+											/>
+											<DialogFooter>
+												<DialogClose asChild>
+													<Button
+														disabled={IsUpdatingChannel}
+														variant="outline"
+													>
+														Cancel
+													</Button>
+												</DialogClose>
+												<Button disabled={IsUpdatingChannel}>Save</Button>
+											</DialogFooter>
+										</form>
+									</DialogContent>
+								</Dialog>
+								<button
+									onClick={handleRemove}
+									disabled={IsremovingChannel}
+									className="flex items-center gap-x-2 px-5 py-4 bg-white
+                        cursor-pointer rounded-lg border hover:bg-gray-50 text-rose-600"
+								>
+									<Trash className="size-4" />
+									<p className="text-sm font-semibold">Delete channel</p>
+								</button>
+							</div>
+						</DialogContent>
+					</Dialog>
+					<div onClick={onClick} className="flex items-center justify-center">
+						<Hint label="Video" side="bottom" align="center">
+							<VideoIcon className="hover:text-seablue-200 hover:cursor-pointer size-5 flex items-center mr-3" />
+						</Hint>
+					</div>
+				</div>
+			)}
 		</>
 	);
 };
