@@ -14,12 +14,19 @@ import { usePanel } from "@/hooks/use-panel";
 import { Thread } from "@/features/messages/components/thread";
 import { Profile } from "@/features/members/components/profile";
 import { Spinner } from "@/components/spinner";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { useCurrentUser } from "@/features/auth/api/use-current-user";
+
 interface WorkspaceLayoutProps {
 	children: React.ReactNode;
 }
 
 const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
 	const { parentMessageId, onClose, profileMemberId } = usePanel();
+	const workspaceId = useWorkspaceId();
+	const member = useCurrentMember({ workspaceId });
+	const user = useCurrentUser();
 
 	const showPanel = !!parentMessageId || !!profileMemberId;
 
